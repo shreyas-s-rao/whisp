@@ -25,11 +25,25 @@ echo ""
 
 # ── keybinding selection ──────────────────────────────────────────────────────
 
+# Hammerspoon requires unshifted key names. Reject shifted characters outright.
+validate_key() {
+  local key="$1" label="$2"
+  case "$key" in
+    '~'|'!'|'@'|'#'|'$'|'%'|'^'|'&'|'*'|'('|')'|'_'|'+'|'{'|'}'|'|'|':'|'"'|'<'|'>'|'?')
+      echo "Error: '$key' is a shifted character and is not supported as a hotkey."
+      echo "       Hammerspoon requires the unshifted key name (e.g. use '\`' instead of '~', '-' instead of '_')."
+      exit 1
+      ;;
+  esac
+}
+
 read -rp "Key for recording (press-and-hold) [default: F19]: " RECORD_KEY
 RECORD_KEY="${RECORD_KEY:-F19}"
+validate_key "$RECORD_KEY" "record key"
 
 read -rp "Key for learning corrections [default: F18]: " LEARN_KEY
 LEARN_KEY="${LEARN_KEY:-F18}"
+validate_key "$LEARN_KEY" "learn key"
 
 echo ""
 echo "Available Whisper models:"
@@ -169,7 +183,7 @@ mkdir -p "$HOME/.hammerspoon"
 touch "$HAMMERSPOON_INIT"
 DOFILE_LINE='dofile(os.getenv("HOME") .. "/.whisp/whisp.lua")'
 if ! grep -qF "$DOFILE_LINE" "$HAMMERSPOON_INIT"; then
-  printf '\n-- whisp\n%s\n' "$DOFILE_LINE" >> "$HAMMERSPOON_INIT"
+  printf '\n\n-- whisp\n%s\n' "$DOFILE_LINE" >> "$HAMMERSPOON_INIT"
   echo "✓ Injected whisp into ~/.hammerspoon/init.lua."
 else
   echo "✓ Hammerspoon already configured, skipping."
