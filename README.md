@@ -1,5 +1,7 @@
 # Whisp
 
+![Whisp](assets/banner.png)
+
 Whisp is a lightweight, **local** voice dictation tool for developers on macOS.
 
 Hold a key → speak → release. Your speech is transcribed by [whisper.cpp](https://github.com/ggml-org/whisper.cpp) (fully offline, no cloud) and pasted wherever your cursor is.
