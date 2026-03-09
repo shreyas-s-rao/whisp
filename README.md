@@ -23,9 +23,7 @@ Hammerspoon, whisper.cpp, and all other dependencies are installed automatically
 ## Install
 
 ```bash
-git clone https://github.com/shreyas-s-rao/whisp
-cd whisp
-./install.sh
+bash <(curl -fsSL https://raw.githubusercontent.com/shreyas-s-rao/whisp/main/install.sh)
 ```
 
 The installer will ask you to choose:
@@ -101,7 +99,7 @@ You can edit this file directly to add, remove, or tweak entries.
 
 ## Re-running the installer
 
-Run `./install.sh` again at any time to change your hotkeys or switch to a different Whisper model. Your learned corrections are always preserved.
+Run the install command again at any time to change your hotkeys or switch to a different Whisper model. Your learned corrections are always preserved.
 
 ## How it works
 
@@ -134,6 +132,16 @@ press learn key (with corrected text selected)
 ├── config.lua            # generated: hotkeys + sox path
 ├── config.sh             # generated: whisper-cli + model paths
 └── last_raw.txt          # last raw transcript (used by learn.py)
+```
+
+## Development
+
+To work on Whisp locally, clone the repo and run the installer directly:
+
+```bash
+git clone https://github.com/shreyas-s-rao/whisp
+cd whisp
+./install.sh
 ```
 
 ## Contributing

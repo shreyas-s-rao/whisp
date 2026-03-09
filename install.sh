@@ -5,6 +5,17 @@ BASE="$HOME/.whisp"
 WHISPER_DIR="$BASE/whisper.cpp"
 HAMMERSPOON_INIT="$HOME/.hammerspoon/init.lua"
 REPO_DIR="$(cd "$(dirname "$0")" && pwd)"
+GITHUB_RAW="https://raw.githubusercontent.com/shreyas-s-rao/whisp/main"
+
+# Copy a file from the local repo if available, otherwise download it.
+fetch() {
+  local src="$1" dst="$2"
+  if [ -f "$REPO_DIR/$src" ]; then
+    cp "$REPO_DIR/$src" "$dst"
+  else
+    curl -fsSL "$GITHUB_RAW/$src" -o "$dst"
+  fi
+}
 
 echo ""
 echo "╔════════════════════════════════╗"
@@ -105,21 +116,21 @@ echo "✓ Python venv ready."
 # ── scripts ───────────────────────────────────────────────────────────────────
 
 echo "→ Installing scripts..."
-cp "$REPO_DIR/scripts/format.py"     "$BASE/format.py"
-cp "$REPO_DIR/scripts/learn.py"      "$BASE/learn.py"
-cp "$REPO_DIR/scripts/transcribe.sh" "$BASE/transcribe.sh"
+fetch scripts/format.py     "$BASE/format.py"
+fetch scripts/learn.py      "$BASE/learn.py"
+fetch scripts/transcribe.sh "$BASE/transcribe.sh"
 chmod +x "$BASE/transcribe.sh"
 
 # config: always refresh the prompt, never overwrite an existing learned vocab
-cp "$REPO_DIR/config/whisper_prompt.txt" "$BASE/config/whisper_prompt.txt"
+fetch config/whisper_prompt.txt "$BASE/config/whisper_prompt.txt"
 if [ ! -f "$BASE/config/vocab.json" ]; then
-  cp "$REPO_DIR/config/vocab.json" "$BASE/config/vocab.json"
+  fetch config/vocab.json "$BASE/config/vocab.json"
 fi
 
 # ── hammerspoon ───────────────────────────────────────────────────────────────
 
 echo "→ Installing Hammerspoon config..."
-cp "$REPO_DIR/hammerspoon/whisp.lua" "$BASE/whisp.lua"
+fetch hammerspoon/whisp.lua "$BASE/whisp.lua"
 
 # Detect rec binary path (sox) — works on both Apple Silicon and Intel Macs
 REC_PATH="$(brew --prefix)/bin/rec"
