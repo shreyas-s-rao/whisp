@@ -1,0 +1,57 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.mypy_cache/
+.ruff_cache/
+.pytype/
+.pyre/
+venv/
+.venv/
+env/
+.env/
+
+# IDEs & editors
+.vscode/
+.idea/
+*.iml
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.fleet/
+*.swp
+*.swo
+*~
+.project
+.classpath
+.settings/
+
+# Logs & temp files
+*.log
+*.tmp
+*.temp
+/tmp/
+
+# Build & dependency artifacts
+node_modules/
+.cache/
+
+# Development folders
+dev/
+build/
