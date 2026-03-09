@@ -25,9 +25,37 @@ echo ""
 
 # ── keybinding selection ──────────────────────────────────────────────────────
 
+# When a function key is physically pressed in the terminal, the shell receives
+# its escape sequence instead of its name. Map sequences back to key names.
+decode_key() {
+  case "$1" in
+    $'\eOP'|$'\e[11~')  echo "F1"  ;;
+    $'\eOQ'|$'\e[12~')  echo "F2"  ;;
+    $'\eOR'|$'\e[13~')  echo "F3"  ;;
+    $'\eOS'|$'\e[14~')  echo "F4"  ;;
+    $'\e[15~')           echo "F5"  ;;
+    $'\e[17~')           echo "F6"  ;;
+    $'\e[18~')           echo "F7"  ;;
+    $'\e[19~')           echo "F8"  ;;
+    $'\e[20~')           echo "F9"  ;;
+    $'\e[21~')           echo "F10" ;;
+    $'\e[23~')           echo "F11" ;;
+    $'\e[24~')           echo "F12" ;;
+    $'\e[25~')           echo "F13" ;;
+    $'\e[26~')           echo "F14" ;;
+    $'\e[28~')           echo "F15" ;;
+    $'\e[29~')           echo "F16" ;;
+    $'\e[31~')           echo "F17" ;;
+    $'\e[32~')           echo "F18" ;;
+    $'\e[33~')           echo "F19" ;;
+    $'\e[34~')           echo "F20" ;;
+    *)                   echo "$1"  ;;
+  esac
+}
+
 # Hammerspoon requires unshifted key names. Reject shifted characters outright.
 validate_key() {
-  local key="$1" label="$2"
+  local key="$1"
   case "$key" in
     '~'|'!'|'@'|'#'|'$'|'%'|'^'|'&'|'*'|'('|')'|'_'|'+'|'{'|'}'|'|'|':'|'"'|'<'|'>'|'?')
       echo "Error: '$key' is a shifted character and is not supported as a hotkey."
@@ -37,13 +65,15 @@ validate_key() {
   esac
 }
 
+echo "Tip: you can also type the key name (e.g. F19)."
+echo ""
 read -rp "Key for recording (press-and-hold) [default: F19]: " RECORD_KEY
-RECORD_KEY="${RECORD_KEY:-F19}"
-validate_key "$RECORD_KEY" "record key"
+RECORD_KEY="$(decode_key "${RECORD_KEY:-F19}")"
+validate_key "$RECORD_KEY"
 
 read -rp "Key for learning corrections [default: F18]: " LEARN_KEY
-LEARN_KEY="${LEARN_KEY:-F18}"
-validate_key "$LEARN_KEY" "learn key"
+LEARN_KEY="$(decode_key "${LEARN_KEY:-F18}")"
+validate_key "$LEARN_KEY"
 
 echo ""
 echo "Available Whisper models:"
