@@ -65,9 +65,28 @@ if ! command -v brew >/dev/null 2>&1; then
   exit 1
 fi
 
-echo "→ Installing system dependencies..."
-brew install cmake sox python3 git 2>/dev/null || true
-brew install --cask hammerspoon 2>/dev/null || true
+echo "→ Checking system dependencies..."
+brew_install_if_missing() {
+  local cmd="$1" pkg="${2:-$1}"
+  if command -v "$cmd" >/dev/null 2>&1; then
+    echo "✓ $pkg already installed, skipping."
+  else
+    echo "→ Installing $pkg..."
+    brew install "$pkg"
+  fi
+}
+
+brew_install_if_missing cmake
+brew_install_if_missing sox
+brew_install_if_missing python3
+brew_install_if_missing git
+
+if [ -d "/Applications/Hammerspoon.app" ]; then
+  echo "✓ Hammerspoon already installed, skipping."
+else
+  echo "→ Installing Hammerspoon..."
+  brew install --cask hammerspoon
+fi
 
 # ── directory structure ───────────────────────────────────────────────────────
 
