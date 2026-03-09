@@ -28,11 +28,14 @@ local function stop_recording()
     hs.task.new("/bin/bash", nil, {"-c", home .. "/.whisp/transcribe.sh"}):start()
 end
 
-hs.hotkey.bind({}, cfg.record, start_recording, stop_recording)
+local record_mods = cfg.record_mods or {}
+local learn_mods  = cfg.learn_mods  or {}
+
+hs.hotkey.bind(record_mods, cfg.record, start_recording, stop_recording)
 
 -- ── learning ──────────────────────────────────────────────────────────────────
 
-hs.hotkey.bind({}, cfg.learn, function()
+hs.hotkey.bind(learn_mods, cfg.learn, function()
     local original = hs.pasteboard.getContents()
 
     -- copy the currently selected text

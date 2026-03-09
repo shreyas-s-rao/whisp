@@ -30,8 +30,8 @@ bash <(curl -fsSL https://raw.githubusercontent.com/shreyas-s-rao/whisp/main/ins
 
 The installer will ask you to choose:
 
-- A **record key** (default: `F19`) — hold to record, release to transcribe and paste
-- A **learn key** (default: `F18`) — press after selecting corrected text
+- A **record key** (default: `F19`) — hold to record, release to transcribe and paste. Supports modifier combos (e.g. `alt+F1`). Avoid `ctrl`/`cmd` — holding them interferes with other shortcuts while recording.
+- A **learn key** (default: `F18`) — press after selecting corrected text. Modifier combos work well here (e.g. `ctrl+shift+F1`).
 - A **Whisper model** (default: `base.en` — fastest, English only)
 
 Everything is installed into `~/.whisp/`. whisper.cpp is cloned and built there too.  
